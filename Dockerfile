@@ -166,6 +166,6 @@ RUN conda install --yes \
 WORKDIR $USER_DIR
 # Expose Jupyter port
 EXPOSE 8888
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/bash" "docker-entrypoint.sh" ]
 # Switch to user
 USER $USERNAME

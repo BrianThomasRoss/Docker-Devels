@@ -1,6 +1,6 @@
 print(
     """
-    Welcome to the world of dev-containers you are no working from inside
+    Welcome to the world of dev-containers you are now working from inside
     a virtualized instance of a linux ubuntu pre-loaded with miniconda zsh,
     and preconfigured conda environment.
 
