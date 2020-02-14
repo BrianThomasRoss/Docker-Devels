@@ -41,39 +41,28 @@ COPY ./src /dkr
 
 USER root
 
-RUN apt-get update --fix-missing && \
-    apt-get upgrade -y && \
-    apt-get install -yq \
-    ####
+RUN apt-get update && \
+    apt-get install -y \
     apt-transport-https \
     bash \
-    bash-completion \
     build-essential \
     bzip2 \
-    ca-certificates \
-    cmake \
     csh \
-    curl \
-    libglib2.0-0 \
-    libxext6 \
-    libsm6 \
-    libxrender1 \
-    git \
+    cmake \
     locales \
+    git \
     man-db \
-    mercurial \
     nano \
     net-tools \
-    network-manager \
     openssh-client \
     openssh-server \
+    patch \
     software-properties-common \
-    subversion \
     sudo \
-    unzip \
     vim \
     wget \
-    zsh && \   
+    unzip \
+    zsh && \
     #####################////
     #--- CLEAN CACHE --- ////
     #####################////
