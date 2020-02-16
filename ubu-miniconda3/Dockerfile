@@ -1,18 +1,8 @@
-##########################
-### --- BASE IMAGE --- ###
-##########################
-FROM ubuntu:18.04
-
-####################
-### --- META --- ###
-####################
-LABEL maintainer="Brian Ross <brianthomasross.com>" \
-        description="Basic-DS Dev Container Template"
-
-###########################
+ ###########################
 ### --- USER CONFIG --- ###
 ###########################
-ARG USERNAME="btr"
+
+ARG USERNAME="dev"
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 ARG USER_DIR='/home/$USERNAME'
@@ -20,7 +10,8 @@ ARG USER_DIR='/home/$USERNAME'
 ############################
 ### --- CONDA CONFIG --- ###
 ############################
-ARG CONDA_DIR="opt/conda"
+
+ARG CONDA_DIR="/opt/conda"
 ARG CONDA_VERSION=4.7.12
 ARG CONDA_URL="http://repo.continuum.io/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh"
 
@@ -33,53 +24,17 @@ ENV PATH="$CONDA_DIR/bin:$PATH" \
     ### PYCACHE FILES AT RUNTIME
     PYTHONDONTWRITEBYTECODE=1 \
     LANG=C.UTF-8 \
-    LC_ALL=C.UTF-8 \
-    SHELL=/bin/bash
-
-### BUILD FILES
-COPY ./src /dkr
-
-USER root
-
-RUN apt-get update && \
-    apt-get install -y \
-    apt-transport-https \
-    bash \
-    build-essential \
-    bzip2 \
-    csh \
-    cmake \
-    locales \
-    git \
-    man-db \
-    nano \
-    net-tools \
-    openssh-client \
-    openssh-server \
-    patch \
-    software-properties-common \
-    sudo \
-    vim \
-    wget \
-    unzip \
-    zsh && \
-    #####################////
-    #--- CLEAN CACHE --- ////
-    #####################////
-    apt-get autoremove -y && \
-    apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/* && \
-    mv /dkr/fix-permissions.sh /usr/local/bin/fix-permissions && \
-    chmod a+rx /usr/local/bin/fix-permissions && \
+    LC_ALL=C.UTF-8   
+    
     ###########################
-    ### --- ADD A NOT ------- ###
+    ### --- ADD A NOT     --- ###
     ### --- ROOT USER WITH --- ###
     ### --PASSWORDLESS SUDO --- ####
     #################################
-    groupadd --gid $USER_GID $USERNAME && \
-    useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME && \
-    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
-    chmod 0440 /etc/sudoers.d/$USERNAME && \
+RUN groupadd --gid $USER_GID $USERNAME && \
+	useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME && \
+	echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
+	chmod 0440 /etc/sudoers.d/$USERNAME && \
     ##################################
     #### --- MINICONDA INSTALL --- ####
     ####################################
@@ -102,9 +57,3 @@ RUN apt-get update && \
     find /opt/conda/ -follow -type f -name '*.a' -delete && \
     find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
     conda clean -afy
-
-WORKDIR $USER_DIR
-EXPOSE 8888
-CMD ["/bin/bash"]
-
-USER $USERNAME
