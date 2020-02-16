@@ -19,7 +19,7 @@ ARG CONDA_URL="http://repo.continuum.io/miniconda/Miniconda3-${CONDA_VERSION}-Li
 
 
 ### --- SHOULD STOP MOST WARNINGS --- ###
-ARG DEBIAN_FRONTEND=noninteractive
+# ARG DEBIAN_FRONTEND=noninteractive
 
 ENV PATH="$CONDA_DIR/bin:$PATH" \
     ### STOP PYTHON FROM WRITING ENDLESS

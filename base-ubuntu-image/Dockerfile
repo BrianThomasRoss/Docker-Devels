@@ -83,7 +83,9 @@ RUN groupadd --gid $USER_GID $USERNAME && \
     find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
     conda clean -afy && \
     conda install jupyterlab && \
-    conda create -n python==3.7 --yes
+    conda create -n python==3.7 --yes \
 
+ENTRYPOINT ["pyml-entry.sh"]
+EXPOSE 8888
 USER ${USERNAME}
 CMD ["/bin/bash"]    
