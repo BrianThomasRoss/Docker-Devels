@@ -1,4 +1,6 @@
- ###########################
+FROM pyml-dev/base:latest
+
+###########################
 ### --- USER CONFIG --- ###
 ###########################
 
@@ -56,4 +58,9 @@ RUN groupadd --gid $USER_GID $USERNAME && \
     echo "conda activate base" >> ~/.bashrc && \  
     find /opt/conda/ -follow -type f -name '*.a' -delete && \
     find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
-    conda clean -afy
+    conda clean -afy && \
+    conda install jupyterlab && \
+    conda create -n python==3.7 --yes
+
+USER ${USERNAME}
+CMD ["/bin/bash"]    
